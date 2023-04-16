@@ -1,26 +1,43 @@
 import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import React from "react";
-import SearchType from "./SearchType";
 import SearchBar from "./SearchBar";
+import "./Navbar.css";
+import SearchType from "./SearchType";
 
 const Navbar = () => {
   return (
     <>
-      <nav
-        className="navbar navbar-expand-lg bg-body-tertiary"
-        style={{ backgroundColor: "#e3f2fd" }}
-      >
-        <div className="container-fluid">
-          <a className="navbar-brand" href="/">
-            Navbar
-          </a>
-          <SearchType name={"idCheckBox"} id={"actor"} description={"Actor"} />
-          <SearchType name={"idCheckBox"} id={"director"} description={"Director"} />
-          <SearchBar />
-          <SearchBar />
-          <button className="btn btn-success">Search</button>
+      <form style={{ marginLeft: 170 }}>
+        <div className="float-container">
+          <div className="float-child">
+            <h4>Search By</h4>
+            <SearchType
+              id={"actorButton"}
+              name={"radio1"}
+              description={"Actor"}
+            />
+            <SearchType
+              id={"directorButton"}
+              name={"radio1"}
+              description={"Director"}
+            />
+          </div>
+          <div className="float-child">
+            <SearchBar />
+          </div>
+          <div className="float-child">
+            <SearchBar />
+          </div>
         </div>
-      </nav>
+
+        <button
+          type="submit"
+          className="btn btn-success"
+          style={{ marginTop: 27 }}
+        >
+          Search
+        </button>
+      </form>
     </>
   );
 };
