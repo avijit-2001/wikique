@@ -1,11 +1,11 @@
 import React from "react";
 import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
-const SearchBar = () => {
+const SearchBar = ({description, options}) => {
   return (
     <>
       <label for="exampleDataList" className="form-label">
-        Datalist example
+        {description}
       </label>
       <input
         className="form-control"
@@ -14,9 +14,7 @@ const SearchBar = () => {
         placeholder="Type to search..."
       />
       <datalist id="datalistOptions">
-        <option value="San Francisco" />
-        <option value="New York" />
-        <option value="Chicago" />
+        {options.map()}
       </datalist>
     </>
   );

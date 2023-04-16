@@ -1,10 +1,18 @@
 import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
-import React from "react";
+import React, { useState } from "react";
 import SearchBar from "./SearchBar";
 import "./Navbar.css";
 import SearchType from "./SearchType";
 
 const Navbar = () => {
+  const [searchType, setSearchType] = useState("Select a type!");
+  const handleChange = (event) => {
+    if (event.target.id === "actor") {
+      setSearchType("Search by Actor");
+    } else if (event.target.id === "director") {
+      setSearchType("Search by Director");
+    }
+  };
   return (
     <>
       <form style={{ marginLeft: 170 }}>
@@ -12,21 +20,23 @@ const Navbar = () => {
           <div className="float-child">
             <h4>Search By</h4>
             <SearchType
-              id={"actorButton"}
+              id={"actor"}
               name={"radio1"}
               description={"Actor"}
+              onClick={handleChange}
             />
             <SearchType
-              id={"directorButton"}
+              id={"director"}
               name={"radio1"}
               description={"Director"}
+              onClick={handleChange}
             />
           </div>
           <div className="float-child">
-            <SearchBar />
+            <SearchBar description={searchType} />
           </div>
           <div className="float-child">
-            <SearchBar />
+            <SearchBar description={"Genre"} />
           </div>
         </div>
 
