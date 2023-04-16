@@ -1,7 +1,7 @@
 import React from "react";
 import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
-const SearchType = ({id, name, description}) => {
+const SearchType = ({id, name, description, onClick}) => {
   return (
     <>
       <div class="form-check">
@@ -10,6 +10,7 @@ const SearchType = ({id, name, description}) => {
           type="radio"
           name={name}
           id={id}
+          onClick={onClick}
         />
         <label class="form-check-label" for={name}>
           {description}
