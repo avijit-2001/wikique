@@ -2,6 +2,9 @@ import React from "react";
 import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
 const SearchBar = ({description, options}) => {
+  // options = {"avijit": 'Avu'}
+  
+  console.log("xxx", options)
   return (
     <>
       <label for="exampleDataList" className="form-label">
@@ -14,7 +17,7 @@ const SearchBar = ({description, options}) => {
         placeholder="Type to search..."
       />
       <datalist id="datalistOptions">
-        {options.map()}
+        {Object.keys(options).map((actorName) => (<option value={actorName}/>))}
       </datalist>
     </>
   );

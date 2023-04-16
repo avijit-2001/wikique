@@ -3,16 +3,22 @@ import React, { useState } from "react";
 import SearchBar from "./SearchBar";
 import "./Navbar.css";
 import SearchType from "./SearchType";
+import { dicActor, dictDirector } from "../api/data";
 
 const Navbar = () => {
   const [searchType, setSearchType] = useState("Select a type!");
+  const [searchPerson, setSearchPerson] = useState({});
+
   const handleChange = (event) => {
     if (event.target.id === "actor") {
       setSearchType("Search by Actor");
+      setSearchPerson(dicActor);
     } else if (event.target.id === "director") {
       setSearchType("Search by Director");
+      setSearchPerson(dictDirector);
     }
   };
+  
   return (
     <>
       <form style={{ marginLeft: 170 }}>
@@ -33,10 +39,10 @@ const Navbar = () => {
             />
           </div>
           <div className="float-child">
-            <SearchBar description={searchType} />
+            <SearchBar description={searchType} options={searchPerson} />
           </div>
           <div className="float-child">
-            <SearchBar description={"Genre"} />
+            <SearchBar description={"Genre"} options={{}} />
           </div>
         </div>
 
