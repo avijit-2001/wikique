@@ -2,6 +2,7 @@ const axios = require('axios')
 const wdk = require('wikidata-sdk')
 
 async function func_dir(id){
+    let listofGenre = new Set();
     const sparql = `
     SELECT  ?movie ?movieName ?genreName
     WHERE
@@ -23,7 +24,7 @@ async function func_dir(id){
 
     for (let i = 0; i < len; i++) {
         console.log(data['results']['bindings'][i]['movieName']['value'])
-        console.log(data['results']['bindings'][i]['genreName']['value'])
+        listofGenre.add(data['results']['bindings'][i]['genreName']['value'])
         console.log('\n')
     }
     
@@ -31,6 +32,7 @@ async function func_dir(id){
 
 
 async function func_act(id){
+    let listofGenre = new Set();
     const sparql = `
     SELECT  ?movie ?movieName ?genreName
     WHERE
@@ -52,7 +54,7 @@ async function func_act(id){
 
     for (let i = 0; i < len; i++) {
         console.log(data['results']['bindings'][i]['movieName']['value'])
-        console.log(data['results']['bindings'][i]['genreName']['value'])
+        listofGenre.add(data['results']['bindings'][i]['genreName']['value'])
         console.log('\n')
     }
     

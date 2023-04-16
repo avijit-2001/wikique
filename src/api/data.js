@@ -14,6 +14,14 @@ export const dictDirector = {
 
 export const dicActor = {
     "Leonardo DiCaprio" : "wd:Q38111",
-    "Tom Cruise" : "wd:Q37079"   
+    "Tom Cruise" : "wd:Q37079",
+    "Robert Downey Jr." : "wd:Q165219",
+    "Johnny Depp" : "wd:Q37175",
+    "Will Smith" : "wd:Q40096",
+    "Chris Hemsworth" : "wd:Q54314",
+    "Chris Evans" : "wd:Q178348",
+    "Benedict Cumberbatch" : "wd:Q244674",
+    "Keanu Reeves" : "wd:Q43416",
+    "Denzel Washington" : "wd:Q42101"
 }
 
