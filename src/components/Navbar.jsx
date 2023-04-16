@@ -4,10 +4,33 @@ import SearchBar from "./SearchBar";
 import "./Navbar.css";
 import SearchType from "./SearchType";
 import { dicActor, dictDirector } from "../api/data";
+import { getGenreA } from "../api/api";
+import { listToObject } from "../utility/Navbar.utility";
 
 const Navbar = () => {
   const [searchType, setSearchType] = useState("Select a type!");
   const [searchPerson, setSearchPerson] = useState({});
+  const [listOfGenres, setListOfGenres] = useState(new Set());
+
+  const handleOnPersonChange = (id) => {
+    let getGenre = () => {}
+    const searchText = searchType.split(" ")[2]
+    if (searchText === "Actor") {
+      getGenre = getGenreA
+    }
+    else if(searchPerson === "Director") {
+    }
+    const fetchData = async () => {
+      getGenre(id)
+        .then((genres) => {
+          setListOfGenres(genres);
+        })
+        .catch((error) => {
+          console.log("Error fetching genres:", error);
+        });
+    };
+    fetchData();
+  };
 
   const handleChange = (event) => {
     if (event.target.id === "actor") {
@@ -18,7 +41,7 @@ const Navbar = () => {
       setSearchPerson(dictDirector);
     }
   };
-  
+
   return (
     <>
       <form style={{ marginLeft: 170 }}>
@@ -39,10 +62,17 @@ const Navbar = () => {
             />
           </div>
           <div className="float-child">
-            <SearchBar description={searchType} options={searchPerson} />
+            <SearchBar
+              description={searchType}
+              options={searchPerson}
+              handleChange={handleOnPersonChange}
+            />
           </div>
           <div className="float-child">
-            <SearchBar description={"Genre"} options={{}} />
+            <SearchBar
+              description={"Genre"}
+              options={listToObject(listOfGenres)}
+            />
           </div>
         </div>
 
