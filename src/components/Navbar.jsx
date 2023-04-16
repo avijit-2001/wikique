@@ -18,6 +18,7 @@ const Navbar = () => {
           <SearchType name={"idCheckBox"} id={"director"} description={"Director"} />
           <SearchBar />
           <SearchBar />
+          <button className="btn btn-success">Search</button>
         </div>
       </nav>
     </>
