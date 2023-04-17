@@ -81,7 +81,6 @@ export const fetchMoviesByDirector = async (directorId, givenGenre) => {
     var temp = data["results"]["bindings"][i]["movie"]["value"].split("/");
     listofMovies.add(temp[temp.length - 1]);
   }
-  console.log(listofMovies);
   return listofMovies;
 };
 
@@ -112,7 +111,6 @@ export const fetchMoviesByActor = async (actorId, givenGenre) => {
     var temp = data["results"]["bindings"][i]["movie"]["value"].split("/");
     listofMovies.add(temp[temp.length - 1]);
   }
-  console.log(listofMovies);
   return listofMovies;
 };
 

@@ -2,7 +2,6 @@ import React from "react";
 import Card from "./Card";
 
 const Test = ({ movies }) => {
-  console.log('xc', 'inTest', movies);
   return (
     <>
       <div
@@ -21,9 +20,6 @@ const Test = ({ movies }) => {
               className="row  row-cols-1 row-cols-md-3 g-3"
               style={{ marginTop: 3, marginLeft: 0.1 }}
             >
-              {/* {[...Array(10)].map((_, index) => (
-                <Card key={index} />
-              ))} */}
               {movies.map((movie) => (
                 <Card
                   key={movie.wid}

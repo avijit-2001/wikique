@@ -14,12 +14,14 @@ const Card = ({ name, logoURL, duration }) => {
             <p class="card-text">
               <b>Duration: </b> {duration} mins
             </p>
-            <a href="/" class="btn btn-primary">
+            <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
               Overview
-            </a>
-          </div>
+            </button>
+            {/* <Overview movieDetails={{}} modalId={"exampleModal"}/> */}
+       </div>
         </div>
       </div>
+      
     </div>
   );
 };
