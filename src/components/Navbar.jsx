@@ -4,22 +4,31 @@ import SearchBar from "./SearchBar";
 import "./Navbar.css";
 import SearchType from "./SearchType";
 import { dicActor, dictDirector } from "../api/data";
-import { getGenreA, getGenreD } from "../api/api";
+import {
+  getGenreA,
+  getGenreD,
+  fetchMoviesByDirector,
+  fetchMoviesByActor,
+  fetchMovies
+} from "../api/api";
 import { listToObject } from "../utility/Navbar.utility";
 
-const Navbar = () => {
+const Navbar = ({updateMovies}) => {
   const [searchType, setSearchType] = useState("Select a type!");
   const [searchPerson, setSearchPerson] = useState({});
   const [listOfGenres, setListOfGenres] = useState(new Set());
 
+  const [personId, setPersonId] = useState(null);
+  const [genre, setGenre] = useState(null);
+
   const handleOnPersonChange = (id) => {
-    let getGenre = () => {}
-    const searchText = searchType.split(" ")[2]
+    setPersonId(id);
+    let getGenre = () => {};
+    const searchText = searchType.split(" ")[2];
     if (searchText === "Actor") {
-      getGenre = getGenreA
-    }
-    else if(searchText === "Director") {
-      getGenre = getGenreD
+      getGenre = getGenreA;
+    } else if (searchText === "Director") {
+      getGenre = getGenreD;
     }
     const fetchData = async () => {
       getGenre(id)
@@ -32,14 +41,42 @@ const Navbar = () => {
     };
     fetchData();
   };
-
-  const handleChange = (event) => {
+  const handleOnGenreChange = (genre) => {
+    setGenre(genre);
+  };
+  const handleRadioChange = (event) => {
     if (event.target.id === "actor") {
       setSearchType("Search by Actor");
       setSearchPerson(dicActor);
     } else if (event.target.id === "director") {
       setSearchType("Search by Director");
       setSearchPerson(dictDirector);
+    }
+  };
+
+  const handleSearch = () => {
+    if (personId && genre) {
+      let fetchMovieByPerson = () => {};
+      const searchText = searchType.split(" ")[2];
+      if (searchText === "Actor") {
+        fetchMovieByPerson = fetchMoviesByActor;
+      } else if (searchText === "Director") {
+        fetchMovieByPerson = fetchMoviesByDirector;
+      }
+
+      const fetchData = async () => {
+        fetchMovieByPerson(personId, genre)
+          .then((listOfMovies) => {
+            return fetchMovies(listOfMovies)
+          })
+          .then((movies) => {
+            updateMovies(movies)
+          })
+          .catch((error) => {
+            console.log("Error fetching genres:", error);
+          });
+      };
+      fetchData();
     }
   };
 
@@ -53,13 +90,13 @@ const Navbar = () => {
               id={"actor"}
               name={"radio1"}
               description={"Actor"}
-              onClick={handleChange}
+              onClick={handleRadioChange}
             />
             <SearchType
               id={"director"}
               name={"radio1"}
               description={"Director"}
-              onClick={handleChange}
+              onClick={handleRadioChange}
             />
           </div>
           <div className="float-child">
@@ -73,7 +110,7 @@ const Navbar = () => {
             <SearchBar
               description={"Genre"}
               options={listToObject(listOfGenres)}
-              handleChange={(id) => {}}
+              handleChange={handleOnGenreChange}
             />
           </div>
         </div>
@@ -82,6 +119,7 @@ const Navbar = () => {
           type="submit"
           className="btn btn-success"
           style={{ marginTop: 27 }}
+          onClick={handleSearch}
         >
           Search
         </button>
