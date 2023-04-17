@@ -4,10 +4,34 @@ import SearchBar from "./SearchBar";
 import "./Navbar.css";
 import SearchType from "./SearchType";
 import { dicActor, dictDirector } from "../api/data";
+import { getGenreA, getGenreD } from "../api/api";
+import { listToObject } from "../utility/Navbar.utility";
 
 const Navbar = () => {
   const [searchType, setSearchType] = useState("Select a type!");
   const [searchPerson, setSearchPerson] = useState({});
+  const [listOfGenres, setListOfGenres] = useState(new Set());
+
+  const handleOnPersonChange = (id) => {
+    let getGenre = () => {}
+    const searchText = searchType.split(" ")[2]
+    if (searchText === "Actor") {
+      getGenre = getGenreA
+    }
+    else if(searchText === "Director") {
+      getGenre = getGenreD
+    }
+    const fetchData = async () => {
+      getGenre(id)
+        .then((genres) => {
+          setListOfGenres(genres);
+        })
+        .catch((error) => {
+          console.log("Error fetching genres:", error);
+        });
+    };
+    fetchData();
+  };
 
   const handleChange = (event) => {
     if (event.target.id === "actor") {
@@ -18,10 +42,10 @@ const Navbar = () => {
       setSearchPerson(dictDirector);
     }
   };
-  
+
   return (
     <>
-      <form style={{ marginLeft: 170 }}>
+      <div style={{ marginLeft: 170 }}>
         <div className="float-container">
           <div className="float-child">
             <h4>Search By</h4>
@@ -39,10 +63,18 @@ const Navbar = () => {
             />
           </div>
           <div className="float-child">
-            <SearchBar description={searchType} options={searchPerson} />
+            <SearchBar
+              description={searchType}
+              options={searchPerson}
+              handleChange={handleOnPersonChange}
+            />
           </div>
           <div className="float-child">
-            <SearchBar description={"Genre"} options={{}} />
+            <SearchBar
+              description={"Genre"}
+              options={listToObject(listOfGenres)}
+              handleChange={(id) => {}}
+            />
           </div>
         </div>
 
@@ -53,7 +85,7 @@ const Navbar = () => {
         >
           Search
         </button>
-      </form>
+      </div>
     </>
   );
 };

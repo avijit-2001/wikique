@@ -1,10 +1,15 @@
 import React from "react";
 import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
+import { dicActor, dictDirector } from "../api/data";
 
-const SearchBar = ({description, options}) => {
-  // options = {"avijit": 'Avu'}
+const SearchBar = ({description, options, handleChange}) => {
   
-  console.log("xxx", options)
+  const onChangeHandler = (event) => {
+    const searchText = description.split(" ")[2]
+    const name = event.target.value;
+    const id = searchText === "Actor" ? dicActor[name] : dictDirector[name]
+    handleChange(id)
+  }
   return (
     <>
       <label for="exampleDataList" className="form-label">
@@ -12,12 +17,13 @@ const SearchBar = ({description, options}) => {
       </label>
       <input
         className="form-control"
-        list="datalistOptions"
-        id="exampleDataList"
+        list={"datalistOptions" + description}
+        id={"exampleDataList" + description}
         placeholder="Type to search..."
+        onChange={onChangeHandler}
       />
-      <datalist id="datalistOptions">
-        {Object.keys(options).map((actorName) => (<option value={actorName}/>))}
+      <datalist id={"datalistOptions" + description}>
+        {Object.keys(options).map((actorName) => (<option value={actorName} key={dicActor[actorName]}/ >))}
       </datalist>
     </>
   );
