@@ -5,11 +5,12 @@ import Test from './components/Test';
 function App() {
 
   const [movies, setMovies] = useState([])
-
+  const [chartData, setChartData] = useState([])
+  const [person, setPerson] = useState({})
   return (
     <div className='contained'>
-      <Navbar updateMovies = {setMovies}/>
-      <Test movies = {movies}/>
+      <Navbar updateMovies = {setMovies} updateChartData = {setChartData} updatePerson = {setPerson}/>
+      <Test movies = {movies} chartData = {chartData} person = {person}/>
     </div>
   );
 }

@@ -9,11 +9,12 @@ import {
   getGenreD,
   fetchMoviesByDirector,
   fetchMoviesByActor,
-  fetchMovies
+  fetchMovies,
+  fetchPersonDetails
 } from "../api/api";
 import { listToObject } from "../utility/Navbar.utility";
 
-const Navbar = ({updateMovies}) => {
+const Navbar = ({updateMovies, updateChartData, updatePerson}) => {
   const [searchType, setSearchType] = useState("Select a type!");
   const [searchPerson, setSearchPerson] = useState({});
   const [listOfGenres, setListOfGenres] = useState(new Set());
@@ -31,13 +32,30 @@ const Navbar = ({updateMovies}) => {
       getGenre = getGenreD;
     }
     const fetchData = async () => {
+      let data = {}
+      let charData = []
       getGenre(id)
-        .then((genres) => {
-          setListOfGenres(genres);
+        .then(({genresUnique, genresAll}) => {
+          setListOfGenres(genresUnique);
+          for(let i = 0; i < genresAll.length; i++) {
+            const genreType = genresAll[i]
+            if (genreType in data) {
+              data[genreType] = data[genreType] + 1
+            }
+            else {
+              data[genreType] = 1
+            }
+          }
+          // data = data.sort((a, b) => b.value - a.value).slice(0, 10);
+
+          Object.keys(data).forEach((key) => {charData.push({name: key, value: data[key]})})
+          updateChartData(charData)
         })
         .catch((error) => {
           console.log("Error fetching genres:", error);
         });
+      const {name, link} = await fetchPersonDetails(id);
+      console.log('find', name, link);
     };
     fetchData();
   };
@@ -75,6 +93,7 @@ const Navbar = ({updateMovies}) => {
           .catch((error) => {
             console.log("Error fetching genres:", error);
           });
+
       };
       fetchData();
     }

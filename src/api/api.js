@@ -7,6 +7,7 @@ const wdk = WBK({
 
 export const getGenreA = async (id) => {
   let listofGenre = new Set();
+  let genresAll = [];
   const sparql = `
     SELECT  ?movie ?movieName ?genreName
     WHERE
@@ -26,12 +27,14 @@ export const getGenreA = async (id) => {
   var len = data["results"]["bindings"].length;
   for (let i = 0; i < len; i++) {
     listofGenre.add(data["results"]["bindings"][i]["genreName"]["value"]);
+    genresAll.push(data["results"]["bindings"][i]["genreName"]["value"]);
   }
-  return listofGenre;
+  return { genresUnique: listofGenre, genresAll: genresAll };
 };
 
 export const getGenreD = async (id) => {
   let listofGenre = new Set();
+  let genresAll = [];
   const sparql = `
   SELECT  ?movie ?movieName ?genreName
   WHERE
@@ -50,8 +53,9 @@ export const getGenreD = async (id) => {
   var len = data["results"]["bindings"].length;
   for (let i = 0; i < len; i++) {
     listofGenre.add(data["results"]["bindings"][i]["genreName"]["value"]);
+    genresAll.push(data["results"]["bindings"][i]["genreName"]["value"]);
   }
-  return listofGenre;
+  return { genresUnique: listofGenre, genresAll: genresAll };
 };
 
 //Function to get the movies of a particular director and a particular genre
@@ -203,4 +207,30 @@ export const fetchMovieDetails = async (id) => {
     movieDetails[movieName].genreNames.add(genreName);
   }
   return movieDetails;
+};
+
+export const fetchPersonDetails = async (id) => {
+  const sparql = `
+  SELECT ?link ?name
+  WHERE 
+  {
+    wd:${id} wdt:P18 ?link;
+              rdfs:label ?name.
+    FILTER(LANG(?name)="en")
+  }
+  LIMIT 1
+  `;
+
+  const [url, body] = wdk.sparqlQuery(sparql).split("?");
+
+  const { data } = await axios.post(url, body);
+  console.log(data["results"]["bindings"][0]);
+  var link = data["results"]["bindings"][0]["link"]["value"];
+  var name = data["results"]["bindings"][0]["name"]["value"];
+  var dict = {
+    link: link,
+    name: name
+  };
+  console.log('find', 'inFetch', dict)
+  return dict
 };

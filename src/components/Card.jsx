@@ -6,7 +6,7 @@ const Card = ({ name, logoURL, duration, onClickOverview, movieId}) => {
       <div className="col-md-6">
         <div
           class="card"
-          style={{ height: "15.8rem", width: "11.8rem", margin: 7.5, marginTop: 15 }}
+          style={{ height: "15rem", width: "12.5rem", margin: 20, marginTop: 15, marginLeft: 10}}
         >
           <img src={logoURL} className="card-img-top" alt="..."  width="400" height="500" />
           <div className="card-body">

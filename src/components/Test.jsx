@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import MovieDetails from "./MovieDetails";
 import CardWrapper from "./CradWrapper";
 import { fetchMovieDetails } from "../api/api";
+import Charts from "./Charts";
 
-const Test = ({ movies }) => {
+const Test = ({ movies, chartData, person }) => {
   const [showOverview, setShowOverview] = useState(false);
   const [movieDetails, setMovieDetails] = useState({});
   const handleClickOverview = (movieId) => {
@@ -39,7 +40,7 @@ const Test = ({ movies }) => {
           <CardWrapper movies={movies} onClickOverview={handleClickOverview} />
         )}
         <div style={{ width: "34.5%" }} className="border">
-          CHARTS
+          <Charts chartData={chartData} person = {person}/>
         </div>
       </div>
     </>
