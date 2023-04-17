@@ -6,7 +6,7 @@ const Card = () => {
   return (
     <div className="row">
     <div className="col-md-6">
-      <div className="card" style={{ width: "12rem", margin:3}}>
+      <div className="card" style={{ width: "13.8rem", margin:2.5, marginTop:5}}>
         <img src={imgUrl} className="card-img-top" alt="..."/>
         <div className="card-body">
           <h5 className="card-title">Card title</h5>
