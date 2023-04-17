@@ -4,7 +4,7 @@ import SearchBar from "./SearchBar";
 import "./Navbar.css";
 import SearchType from "./SearchType";
 import { dicActor, dictDirector } from "../api/data";
-import { getGenreA } from "../api/api";
+import { getGenreA, getGenreD } from "../api/api";
 import { listToObject } from "../utility/Navbar.utility";
 
 const Navbar = () => {
@@ -18,7 +18,8 @@ const Navbar = () => {
     if (searchText === "Actor") {
       getGenre = getGenreA
     }
-    else if(searchPerson === "Director") {
+    else if(searchText === "Director") {
+      getGenre = getGenreD
     }
     const fetchData = async () => {
       getGenre(id)
@@ -44,7 +45,7 @@ const Navbar = () => {
 
   return (
     <>
-      <form style={{ marginLeft: 170 }}>
+      <div style={{ marginLeft: 170 }}>
         <div className="float-container">
           <div className="float-child">
             <h4>Search By</h4>
@@ -72,6 +73,7 @@ const Navbar = () => {
             <SearchBar
               description={"Genre"}
               options={listToObject(listOfGenres)}
+              handleChange={(id) => {}}
             />
           </div>
         </div>
@@ -83,7 +85,7 @@ const Navbar = () => {
         >
           Search
         </button>
-      </form>
+      </div>
     </>
   );
 };
