@@ -5,23 +5,23 @@ const Card = ({ name, logoURL, duration }) => {
     <div className="row">
       <div className="col-md-6">
         <div
-          className="card"
-          style={{ width: "13.8rem", margin: 2.5, marginTop: 5 }}
+          class="card"
+          style={{ height: "15.8rem", width: "11.8rem", margin: 7.5, marginTop: 15 }}
         >
-          <img src={logoURL} className="card-img-top" alt="..." />
+          <img src={logoURL} className="card-img-top" alt="..."  width="400" height="500" />
           <div className="card-body">
-            <h5 className="card-title">{name}</h5>
+            <h6 className="card-title">{name}</h6>
             <p class="card-text">
               <b>Duration: </b> {duration} mins
             </p>
-            <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+          </div>
+          <div class="card-footer">
+          <a href="/" class="btn btn-primary">
               Overview
-            </button>
-            {/* <Overview movieDetails={{}} modalId={"exampleModal"}/> */}
-       </div>
-        </div>
-      </div>
-      
+            </a>
+          </div>
+          </div>
+        </div>        
     </div>
   );
 };
