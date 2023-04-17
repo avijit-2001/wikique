@@ -1,6 +1,6 @@
 import "../../node_modules/bootstrap/dist/css/bootstrap.min.css";
 
-const Card = ({ name, logoURL, duration }) => {
+const Card = ({ name, logoURL, duration, onClickOverview, movieId}) => {
   return (
     <div className="row">
       <div className="col-md-6">
@@ -16,9 +16,9 @@ const Card = ({ name, logoURL, duration }) => {
             </p>
           </div>
           <div class="card-footer">
-          <a href="/" class="btn btn-primary">
+          <button class="btn btn-primary" onClick={() => onClickOverview(movieId)}>
               Overview
-            </a>
+            </button>
           </div>
           </div>
         </div>        

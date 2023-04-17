@@ -1,7 +1,26 @@
-import React from "react";
-import Card from "./Card";
+import React, { useState } from "react";
+import MovieDetails from "./MovieDetails";
+import CardWrapper from "./CradWrapper";
+import { fetchMovieDetails } from "../api/api";
 
 const Test = ({ movies }) => {
+  const [showOverview, setShowOverview] = useState(false);
+  const [movieDetails, setMovieDetails] = useState({});
+  const handleClickOverview = (movieId) => {
+    setShowOverview(true);
+    // fetch details
+    const fetchData = async () => {
+      fetchMovieDetails(movieId)
+        .then((movieDetails) => {
+          setMovieDetails(movieDetails);
+        })
+    };
+    fetchData();
+  };
+  const handleClickBack = () => {
+    setShowOverview(false);
+  };
+
   return (
     <>
       <div
@@ -14,23 +33,11 @@ const Test = ({ movies }) => {
           justifyContent: "space-between",
         }}
       >
-        <div style={{ width: "65%" }} className="border">
-          <div style={{ overflow: "scroll", height: "600px" }}>
-            <div
-              className="row  row-cols-1 row-cols-md-3 g-3"
-              style={{ marginTop: 3, marginLeft: 0.1 }}
-            >
-              {movies.map((movie) => (
-                <Card
-                  key={movie.wid}
-                  name={movie.name}
-                  logoURL={movie.logoURL}
-                  duration={movie.duration}
-                />
-              ))}
-            </div>
-          </div>
-        </div>
+        {showOverview ? (
+          <MovieDetails onClickBack={handleClickBack} movieDetails = {movieDetails}/>
+        ) : (
+          <CardWrapper movies={movies} onClickOverview={handleClickOverview} />
+        )}
         <div style={{ width: "34.5%" }} className="border">
           CHARTS
         </div>
