@@ -81,7 +81,6 @@ export const fetchMoviesByDirector = async (directorId, givenGenre) => {
     var temp = data["results"]["bindings"][i]["movie"]["value"].split("/");
     listofMovies.add(temp[temp.length - 1]);
   }
-  console.log(listofMovies);
   return listofMovies;
 };
 
@@ -112,7 +111,6 @@ export const fetchMoviesByActor = async (actorId, givenGenre) => {
     var temp = data["results"]["bindings"][i]["movie"]["value"].split("/");
     listofMovies.add(temp[temp.length - 1]);
   }
-  console.log(listofMovies);
   return listofMovies;
 };
 
@@ -147,4 +145,62 @@ export const fetchMovies = async (ids) => {
     movies.push(movie);
   }
   return movies;
+};
+
+export const fetchMovieDetails = async (id) => {
+  const sparql = `
+      SELECT ?movieName ?genreName ?link ?director_name ?cast_member ?producer_name
+      WHERE
+      { 
+      wd:${id} wdt:P31    wd:Q11424 ;
+              wdt:P57    wd:Q42574 .
+      wd:${id} wdt:P1476 ?movieName.
+      wd:${id} wdt:P136 ?genre.
+      wd:${id} wdt:P154 ?link.
+      wd:${id} wdt:P57 ?director.
+      ?director rdfs:label ?director_name .
+      wd:${id} wdt:P161 ?cast.
+      ?cast rdfs:label ?cast_member .
+      wd:${id} wdt:P162 ?producer.
+      ?producer rdfs:label ?producer_name.
+      ?genre rdfs:label ?genreName.
+      FILTER(LANG(?genreName)="en")
+      FILTER(LANG(?director_name)="en")
+      FILTER(LANG(?cast_member)="en")
+      FILTER(LANG(?producer_name)="en")
+      }
+      LIMIT 100
+      `;
+
+  const [url, body] = wdk.sparqlQuery(sparql).split("?");
+
+  const { data } = await axios.post(url, body);
+
+  const len = data["results"]["bindings"].length;
+  const movieDetails = {};
+  for (let i = 0; i < len; i++) {
+    const temp = data["results"]["bindings"][i];
+    const imageLink = temp["link"]["value"];
+    const movieName = temp["movieName"]["value"];
+    const directorName = temp["director_name"]["value"];
+    const castMember = temp["cast_member"]["value"];
+    const producerName = temp["producer_name"]["value"];
+    const genreName = temp["genreName"]["value"];
+
+    if (!(movieName in movieDetails)) {
+      movieDetails[movieName] = {
+        imageLink: "https://rb.gy/4z3c2",
+        castMembers: new Set(),
+        producerNames: new Set(),
+        directorNames: new Set(),
+        genreNames: new Set(),
+      };
+    }
+    movieDetails[movieName].imageLink = imageLink;
+    movieDetails[movieName].castMembers.add(castMember);
+    movieDetails[movieName].producerNames.add(producerName);
+    movieDetails[movieName].directorNames.add(directorName);
+    movieDetails[movieName].genreNames.add(genreName);
+  }
+  return movieDetails;
 };
